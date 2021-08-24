@@ -10,9 +10,19 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-// in lieu of bodyParser.json() and bodyParser.urlencoded()
+// in lieu of bodyParser.json() and bodyParser.urlencoded() - now deprecated
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
+
+const db = require("./app/models");
+
+// db.sequelize.sync();
+
+db.sequelize.sync({ force: true }).then(() => {
+    console.log("Drop and re-sync db.");
+  });
+  
+
 
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to Minhaj's application." });
